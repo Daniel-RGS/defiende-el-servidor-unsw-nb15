@@ -9,6 +9,7 @@
 - Recuperación sin credenciales: `evidencias/recuperacion/dvc-pull-sin-credenciales.log`.
 - Recuperación de datos preparados: `evidencias/recuperacion/dvc-prepared-pull.log`.
 - Prueba del remote HTTPS público sin credenciales: `evidencias/recuperacion/dvc-pull-public-https-sin-credenciales.log`.
+- Análisis de sensibilidad: se añadirá después de ejecutar los modelos, usando las predicciones de validación y excluyendo los 940 registros contradictorios.
 
 ## Política de acceso DVC
 
@@ -52,8 +53,30 @@ El test se auditó solo con las predictoras: 6.886 filas solapan grupos de train
 y 1.655 grupos de validación; no se usaron etiquetas de test para ninguna
 decisión.
 
+Esto equivale a 8,36% del test con grupos de train y 2,01% con grupos de
+validación; el solapamiento total por grupo es aproximadamente 10,37%. Las
+métricas del test se interpretarán con esta limitación, porque el solapamiento
+puede favorecerlas.
+
+Las métricas se calcularán por fila, incluyendo repeticiones: esto da mayor peso
+a los patrones frecuentes y es coherente con la unidad de observación publicada.
+Además se reportará un análisis de sensibilidad sobre validación excluyendo los
+940 registros pertenecientes a grupos con etiquetas contradictorias. Dos filas
+idénticas con etiquetas opuestas no pueden ser acertadas simultáneamente por un
+modelo determinista, por lo que esos grupos imponen un techo práctico a las
+métricas.
+
 Las fuentes, fechas UTC de descarga, SHA-256, tipos, faltantes y clases de ambos
 archivos están en `evidencias/auditoria.json`.
+
+## Declaración de herramientas y contribuciones
+
+Se utilizó Codex como asistente de IA para apoyar la organización del repositorio,
+la escritura de scripts de auditoría, la configuración reproducible de DVC y la
+revisión de comandos. Daniel verificó los SHA-256, filas, columnas, tipos,
+faltantes, duplicados, contradicciones, asignación por grupos, configuración sin
+secretos y recuperaciones desde carpetas limpias. La interpretación final de las
+métricas y la defensa de las decisiones corresponden a los integrantes.
 
 ## Transformación de datos preparados
 
