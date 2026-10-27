@@ -218,3 +218,8 @@ __marimo__/
 
 # Streamlit
 .streamlit/secrets.toml
+.dvc/config.local
+mlruns/
+.env
+*.pkl
+*.joblib
