@@ -92,6 +92,12 @@ en una carpeta limpia y sus predicciones coincidieron con las locales sobre 20
 filas fijas de validación; la diferencia máxima de score fue 0 para v1 y
 1,11e-16 para v2.
 
+El entrenamiento de v1 y v2 quedó registrado en el mismo commit de código
+`7c35ad5b8734ab5fb8f5b100d7284ba01838a01c`; por eso las cards y los runs lo
+citan. Para hacer las revisiones de código distinguibles, `v1` y `v2` tienen
+configuraciones propias en `configs/v1.json` y `configs/v2.json`, y sus tags
+apuntan a commits posteriores distintos que contienen esas configuraciones.
+
 Las salidas de referencia están en `evidencias/recuperacion/v1-predictions-before-hf.csv`
 y `v2-predictions-before-hf.csv`. La comparación declara tolerancia numérica
 `1e-12`; las etiquetas binarias coincidieron en las 20 filas de ambas versiones.
