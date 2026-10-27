@@ -1,0 +1,11 @@
+$ git clone ... /tmp/defiende-prepared-recovery
+Cloning into '/tmp/defiende-prepared-recovery'...
+$ dvc pull -r origin
+A       data/prepared/
+A       data/raw/UNSW_NB15_testing-set.csv
+A       data/raw/UNSW_NB15_training-set.csv
+8 files fetched and 7 files added
+$ sha256sum prepared split references
+8a6538f6423a503e76cdf82ebbbf73c1449689d27388de4e1e34a3abf8eded8c  data/prepared/split_assignments.csv
+ca485acb8f9857cd160a6412bf67c8163aa8ee29c0a71150dff5cff089a5c8a3  data/prepared/train_rows.csv
+385223116b73b87ec56b1460ce0b1d3d121e9af3480f71bc4bc31a59b17f04e4  data/prepared/validation_rows.csv
