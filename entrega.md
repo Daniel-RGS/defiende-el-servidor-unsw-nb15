@@ -9,6 +9,7 @@
 - Recuperación sin credenciales: `evidencias/recuperacion/dvc-pull-sin-credenciales.log`.
 - Recuperación de datos preparados: `evidencias/recuperacion/dvc-prepared-pull.log`.
 - Prueba del remote HTTPS público sin credenciales: `evidencias/recuperacion/dvc-pull-public-https-sin-credenciales.log`.
+- Recuperación desde respaldo Drive: `evidencias/recuperacion/dvc-pull-drive.log`.
 - Análisis de sensibilidad: se añadirá después de ejecutar los modelos, usando las predicciones de validación y excluyendo los 940 registros contradictorios.
 
 ## Política de acceso DVC
@@ -26,6 +27,9 @@ tanto, el acceso público no es suficiente para esta entrega.
 Respaldo separado preparado para Drive (no se incluye en Git ni en el ZIP):
 `backups/defiende-servidor-dvc-storage-2026-10-27.tar.gz`, SHA-256
 `9a8e05590a0d41110051662b956ca78455919968a86f2ee6cdd6a8fc193e620d`.
+Enlace público: https://drive.google.com/file/d/1j7H_eR0oXREf799NVNKJ-N3yUl-Lag4b/view?usp=drive_link
+La prueba limpia descargó el archivo con `gdown`, verificó ese SHA-256, lo
+extrajo y recuperó tanto los CSV originales como los datos preparados.
 Contiene `.dvc/cache`; para usarlo como remote local, extraerlo y ejecutar:
 
 ```bash

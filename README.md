@@ -36,3 +36,25 @@ git commit -m "data: versionar datasets UNSW-NB15 con DVC"
 git push origin HEAD
 dvc push -r origin
 ```
+
+## Respaldo DVC para recuperación sin credenciales
+
+Respaldo externo: [archivo DVC en Drive](https://drive.google.com/file/d/1j7H_eR0oXREf799NVNKJ-N3yUl-Lag4b/view?usp=drive_link)
+
+SHA-256 esperado del archivo descargado:
+
+```text
+9a8e05590a0d41110051662b956ca78455919968a86f2ee6cdd6a8fc193e620d
+```
+
+Después de descargarlo y extraerlo, el directorio `cache` extraído puede usarse
+como remote local:
+
+```bash
+dvc remote add backup /ruta/al/cache-extraido
+dvc pull -r backup
+sha256sum data/raw/UNSW_NB15_training-set.csv data/raw/UNSW_NB15_testing-set.csv
+```
+
+La salida reproducida de esta prueba está en
+`evidencias/recuperacion/dvc-pull-drive.log`.
