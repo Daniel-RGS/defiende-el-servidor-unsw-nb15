@@ -5,4 +5,5 @@
   "threshold": 0.51,
   "produced_by_git_commit": "7c35ad5b8734ab5fb8f5b100d7284ba01838a01c",
   "mlflow_run_id": "dcdbd1d174e442039826cfb6d38ccb99"
+  ,"release_note": "v2 cambia de un estimador logistico a un conjunto balanceado de arboles y fija el umbral por validacion."
 }
