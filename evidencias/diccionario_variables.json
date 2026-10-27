@@ -1,0 +1,272 @@
+[
+  {
+    "name": "id",
+    "dtype": "int64",
+    "role": "excluded",
+    "meaning": "Identificador de la fila"
+  },
+  {
+    "name": "dur",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Duración total del flujo"
+  },
+  {
+    "name": "proto",
+    "dtype": "object",
+    "role": "categorical",
+    "meaning": "Protocolo de transacción"
+  },
+  {
+    "name": "service",
+    "dtype": "object",
+    "role": "categorical",
+    "meaning": "Servicio usado (por ejemplo http, ftp, smtp)"
+  },
+  {
+    "name": "state",
+    "dtype": "object",
+    "role": "categorical",
+    "meaning": "Estado de la conexión según el protocolo"
+  },
+  {
+    "name": "spkts",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Paquetes de origen a destino"
+  },
+  {
+    "name": "dpkts",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Paquetes de destino a origen"
+  },
+  {
+    "name": "sbytes",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Bytes de origen a destino"
+  },
+  {
+    "name": "dbytes",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Bytes de destino a origen"
+  },
+  {
+    "name": "rate",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Tasa del flujo"
+  },
+  {
+    "name": "sttl",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "TTL de origen a destino"
+  },
+  {
+    "name": "dttl",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "TTL de destino a origen"
+  },
+  {
+    "name": "sload",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Carga de origen en bits/s"
+  },
+  {
+    "name": "dload",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Carga de destino en bits/s"
+  },
+  {
+    "name": "sloss",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Paquetes de origen retransmitidos o perdidos"
+  },
+  {
+    "name": "dloss",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Paquetes de destino retransmitidos o perdidos"
+  },
+  {
+    "name": "sinpkt",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Intervalo entre paquetes de origen"
+  },
+  {
+    "name": "dinpkt",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Intervalo entre paquetes de destino"
+  },
+  {
+    "name": "sjit",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Jitter de origen"
+  },
+  {
+    "name": "djit",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Jitter de destino"
+  },
+  {
+    "name": "swin",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Ventana TCP de origen"
+  },
+  {
+    "name": "stcpb",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Número base TCP de origen"
+  },
+  {
+    "name": "dtcpb",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Número base TCP de destino"
+  },
+  {
+    "name": "dwin",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Ventana TCP de destino"
+  },
+  {
+    "name": "tcprtt",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Tiempo de ida y vuelta TCP"
+  },
+  {
+    "name": "synack",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Tiempo SYN a SYN-ACK"
+  },
+  {
+    "name": "ackdat",
+    "dtype": "float64",
+    "role": "numeric",
+    "meaning": "Tiempo SYN-ACK a ACK"
+  },
+  {
+    "name": "smean",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Tamaño medio de paquetes de origen"
+  },
+  {
+    "name": "dmean",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Tamaño medio de paquetes de destino"
+  },
+  {
+    "name": "trans_depth",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Profundidad de transacción HTTP"
+  },
+  {
+    "name": "response_body_len",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Bytes del cuerpo de respuesta HTTP"
+  },
+  {
+    "name": "ct_srv_src",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conexiones al servicio desde el origen"
+  },
+  {
+    "name": "ct_state_ttl",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conexiones por estado y TTL"
+  },
+  {
+    "name": "ct_dst_ltm",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conexiones al destino en la ventana temporal"
+  },
+  {
+    "name": "ct_src_dport_ltm",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conexiones por origen y puerto destino"
+  },
+  {
+    "name": "ct_dst_sport_ltm",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conexiones por destino y puerto origen"
+  },
+  {
+    "name": "ct_dst_src_ltm",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conexiones entre destino y origen"
+  },
+  {
+    "name": "is_ftp_login",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Indica inicio de sesión FTP"
+  },
+  {
+    "name": "ct_ftp_cmd",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conteo de comandos FTP"
+  },
+  {
+    "name": "ct_flw_http_mthd",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conteo de métodos HTTP"
+  },
+  {
+    "name": "ct_src_ltm",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conexiones desde el origen en la ventana temporal"
+  },
+  {
+    "name": "ct_srv_dst",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Conexiones al servicio y destino"
+  },
+  {
+    "name": "is_sm_ips_ports",
+    "dtype": "int64",
+    "role": "numeric",
+    "meaning": "Indica mismas IP/puertos de origen y destino"
+  },
+  {
+    "name": "attack_cat",
+    "dtype": "object",
+    "role": "excluded",
+    "meaning": "Categoría del ataque (objetivo auxiliar; fuga de información)"
+  },
+  {
+    "name": "label",
+    "dtype": "int64",
+    "role": "excluded",
+    "meaning": "Etiqueta binaria: 0 normal, 1 ataque"
+  }
+]
