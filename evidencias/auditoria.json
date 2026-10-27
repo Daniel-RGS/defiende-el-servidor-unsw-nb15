@@ -1,12 +1,12 @@
 {
-  "generated_at_utc": "2026-10-27T20:07:11.918321+00:00",
+  "generated_at_utc": "2026-10-27T21:07:10.185108+00:00",
   "seed": 20261027,
   "validation_fraction": 0.2,
   "files": {
     "UNSW_NB15_training-set.csv": {
       "source": "https://huggingface.co/datasets/Mouwiya/UNSW-NB15-small",
       "official_reference": "https://research.unsw.edu.au/projects/unsw-nb15-dataset",
-      "downloaded_at_utc": "2026-10-27T20:07:11.918321+00:00",
+      "downloaded_at_utc": "2026-10-27T21:07:10.185108+00:00",
       "sha256": "bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa",
       "bytes": 32293018,
       "rows": 175341,
@@ -160,7 +160,7 @@
     "UNSW_NB15_testing-set.csv": {
       "source": "https://huggingface.co/datasets/Mouwiya/UNSW-NB15-small",
       "official_reference": "https://research.unsw.edu.au/projects/unsw-nb15-dataset",
-      "downloaded_at_utc": "2026-10-27T20:07:11.918321+00:00",
+      "downloaded_at_utc": "2026-10-27T21:07:10.185108+00:00",
       "sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
       "bytes": 15380800,
       "rows": 82332,
@@ -656,7 +656,13 @@
       "1": 24133,
       "0": 11358
     },
-    "split_group_overlap": 0
+    "split_group_overlap": 0,
+    "split_assignment_sha256": "8a6538f6423a503e76cdf82ebbbf73c1449689d27388de4e1e34a3abf8eded8c",
+    "row_reference_sha256": {
+      "train": "ca485acb8f9857cd160a6412bf67c8163aa8ee29c0a71150dff5cff089a5c8a3",
+      "validation": "385223116b73b87ec56b1460ce0b1d3d121e9af3480f71bc4bc31a59b17f04e4"
+    },
+    "validation_rationale": "20% permite una validación suficientemente grande y conserva 80% para entrenar; la asignación queda fija para comparar todos los experimentos."
   },
   "test_overlap_audit": {
     "test_predictor_groups": 53946,

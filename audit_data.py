@@ -85,6 +85,9 @@ def main():
     # Save row references only; raw CSVs remain the DVC payload.
     pd.DataFrame({"row_id": assignment.loc[tr_idx,"row_id"]}).to_csv(PREP / "train_rows.csv", index=False)
     pd.DataFrame({"row_id": assignment.loc[va_idx,"row_id"]}).to_csv(PREP / "validation_rows.csv", index=False)
+    split_hashes = {}
+    for name, idx in [("train", tr_idx), ("validation", va_idx)]:
+        split_hashes[name] = sha256(PREP / ("train_rows.csv" if name == "train" else "validation_rows.csv"))
 
     test = frames["UNSW_NB15_testing-set.csv"]
     test_keys = test[predictors].fillna("<NA>").astype(str).agg("\\x1f".join, axis=1)
@@ -98,7 +101,10 @@ def main():
              "contradictory_label_groups":int(len(contradictory)),"contradictory_rows":int(sum(group_sizes.loc[contradictory.index])),
              "contradiction_policy":"No predictor group is split. Contradictory-label groups are retained and assigned wholly to one split; they are flagged for analysis, never silently deduplicated or used to tune on test.",
              "train_rows":int(len(tr_idx)),"validation_rows":int(len(va_idx)),"train_class_counts":counts(train.iloc[tr_idx].label),"validation_class_counts":counts(train.iloc[va_idx].label),
-             "split_group_overlap":int(len(set(keys.iloc[tr_idx]) & set(keys.iloc[va_idx])))},
+             "split_group_overlap":int(len(set(keys.iloc[tr_idx]) & set(keys.iloc[va_idx]))),
+             "split_assignment_sha256":sha256(PREP / "split_assignments.csv"),
+             "row_reference_sha256":split_hashes,
+             "validation_rationale":"20% permite una validación suficientemente grande y conserva 80% para entrenar; la asignación queda fija para comparar todos los experimentos."},
              "test_overlap_audit":{"test_predictor_groups":int(test_keys.nunique()),"test_rows_overlapping_train_groups":int(test_keys.isin(train_keys).sum()),"test_rows_overlapping_validation_groups":int(test_keys.isin(val_keys).sum()),"test_groups_overlapping_train":int(len(set(test_keys)&train_keys)),"test_groups_overlapping_validation":int(len(set(test_keys)&val_keys)),"note":"Audited using predictors only; test labels were not used for splitting, model or threshold selection."},
              "reproducibility":{"script":"audit_data.py","python":platform.python_version(),"assignment_file":"data/prepared/split_assignments.csv"}}
     (OUT/"auditoria.json").write_text(json.dumps(audit, ensure_ascii=False, indent=2), encoding="utf-8")
