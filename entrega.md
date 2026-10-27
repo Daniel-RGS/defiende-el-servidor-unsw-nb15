@@ -14,7 +14,7 @@
 - Tabla de corridas: `evidencias/experimentos.csv`.
 - Sensibilidad sin grupos contradictorios: `evidencias/metricas-sensibilidad.csv` y `.json`.
 - Exportación estructurada de MLflow: `evidencias/mlflow/<run_id>/`.
-- Criterio y selección de umbral: `evidencias/criterio-seleccion.json`, `evidencias/umbral-sweep-random-forest.csv`, `evidencias/seleccion-umbral.json` y `evidencias/seleccion.json`.
+- Criterio y selección de umbral: `evidencias/criterio-seleccion.json`, `evidencias/umbral-sweep-all.csv`, `evidencias/umbral-candidatos.csv`, `evidencias/seleccion-umbral.json` y `evidencias/seleccion.json`.
 
 ## Política de acceso DVC
 
@@ -72,6 +72,16 @@ precision. El barrido de validación eligió random forest con umbral 0,51:
 recall 0,9463, precision 0,9762, FPR 0,0490 y macro-F1 0,9410. v1 es la
 logística baseline con umbral 0,50; v2 es el bosque balanceado de 100 árboles
 con umbral 0,51. La comparación no usa test.
+
+El criterio se redactó después de observar las métricas iniciales a umbral 0,5,
+pero antes del barrido de umbrales; esta secuencia queda visible en el historial
+Git. El barrido aplicó exactamente la misma rejilla a las seis corridas. Random
+forest obtuvo el mayor recall factible (0,9463 con FPR 0,0490); el siguiente fue
+árbol balanceado (0,9291 con FPR 0,0458).
+
+El margen de v2 respecto al límite de FPR es pequeño (0,0490 frente a 0,05).
+El umbral 0,51 puede no conservar ese límite en test por cambio de distribución
+y por el solapamiento auditado del test; si ocurre, se reportará sin reajustar.
 
 Las métricas se calcularán por fila, incluyendo repeticiones: esto da mayor peso
 a los patrones frecuentes y es coherente con la unidad de observación publicada.
