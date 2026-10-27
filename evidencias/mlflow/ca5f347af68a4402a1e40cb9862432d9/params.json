@@ -1,8 +1,11 @@
 {
   "family": "decision_tree",
-  "seed": 20261027,
+  "seed": "20261027",
   "git_commit": "7c35ad5b8734ab5fb8f5b100d7284ba01838a01c",
   "dvc_version": "data/prepared.dvc",
-  "hypothesis": "Si cambio la familia a un arbol de profundidad 12, espero capturar relaciones no lineales porque divide el espacio por reglas.",
-  "threshold": 0.5
+  "hypothesis": "Un \u00e1rbol captura relaciones no lineales.",
+  "threshold": 0.5,
+  "random_state": "20261027",
+  "max_depth": "12",
+  "data_version": "train+fixed-splits"
 }

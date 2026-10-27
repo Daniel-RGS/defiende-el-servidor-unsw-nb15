@@ -98,6 +98,16 @@ citan. Para hacer las revisiones de código distinguibles, `v1` y `v2` tienen
 configuraciones propias en `configs/v1.json` y `configs/v2.json`, y sus tags
 apuntan a commits posteriores distintos que contienen esas configuraciones.
 
+El export de MLflow fue regenerado con `src/export_mlflow.py` leyendo
+`mlflow.get_run(run_id).data.params`; no se corrigió manualmente. El export
+actual incluye `n_estimators=100`, `max_depth=18`, `class_weight=balanced`,
+`random_state=20261027` y `n_jobs=-1` para v2.
+
+El script preparado para la evaluación única es `src/evaluate_test.py`: carga
+v2 por el SHA completo de Hugging Face, verifica el hash del modelo y del test,
+aplica `y_pred = score_attack >= 0.51` y produce las dos evidencias exigidas.
+Todavía no se ha ejecutado.
+
 Las salidas de referencia están en `evidencias/recuperacion/v1-predictions-before-hf.csv`
 y `v2-predictions-before-hf.csv`. La comparación declara tolerancia numérica
 `1e-12`; las etiquetas binarias coincidieron en las 20 filas de ambas versiones.

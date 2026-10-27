@@ -1,6 +1,7 @@
 import hashlib, json, shutil
 from pathlib import Path
 import pandas as pd
+import mlflow
 
 ROOT = Path(__file__).resolve().parents[1]
 EVID = ROOT / "evidencias"
@@ -24,7 +25,8 @@ def main():
     out = EVID / "mlflow"; out.mkdir(exist_ok=True)
     for _, row in table.iterrows():
         run = out / row.run_id; run.mkdir(exist_ok=True)
-        params = {"family":row.family,"seed":int(row.seed),"git_commit":row.git_commit,"dvc_version":row.dvc_version,"hypothesis":row.hypothesis,"threshold":float(row.threshold)}
+        logged = dict(mlflow.get_run(row.run_id).data.params)
+        params = {"family":row.family,"seed":int(row.seed),"git_commit":row.git_commit,"dvc_version":row.dvc_version,"hypothesis":row.hypothesis,"threshold":float(row.threshold), **logged}
         (run/"params.json").write_text(json.dumps(params, indent=2), encoding="utf-8")
         metrics = {k:float(row[k]) for k in ["recall_attack","precision_attack","fpr","macro_f1","threshold"]}
         metrics["confusion_matrix"] = json.loads(row.confusion_matrix)

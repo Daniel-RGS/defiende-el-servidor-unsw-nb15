@@ -8,6 +8,7 @@
     "threshold": 0.5,
     "run_id": "69f2df8e614b4efc8cea9ea98e442368",
     "git_tag": "v1",
+    "git_revision": "dc23c56e58f71e86eb4e07451ba6d7d03f1880dc",
     "model_sha256": "3cf85c943fc34d5d978c84da5f08ca4bc252d61ba72f73fdafabd6792deefbff",
     "huggingface_repo": "Daniel-RGS/defiende-el-servidor-unsw-nb15",
     "huggingface_revision": "c4ed6901110c506b99438df76933c779fc9e737c"
@@ -16,6 +17,8 @@
     "model": "random_forest",
     "threshold": 0.51,
     "run_id": "dcdbd1d174e442039826cfb6d38ccb99",
+    "git_tag": "v2",
+    "git_revision": "b453a7fe4017435b81b517b3458c57fc172d3374",
     "selection_reason": "Con el criterio fijado antes del barrido, maximiza recall entre los umbrales con FPR <= 0.05; mejora el FPR frente a v1 y conserva alta precision.",
     "model_sha256": "5c18730460aadd105d0cd762165edb66ad2fcfec5afa89fbc1098eda83f74342",
     "huggingface_repo": "Daniel-RGS/defiende-el-servidor-unsw-nb15",
