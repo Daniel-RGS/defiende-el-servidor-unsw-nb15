@@ -1,0 +1,8 @@
+{
+  "family": "logistic_regression",
+  "seed": 20261027,
+  "git_commit": "7c35ad5b8734ab5fb8f5b100d7284ba01838a01c",
+  "dvc_version": "data/prepared.dvc",
+  "hypothesis": "Si cambio solo C a 0.1, espero reducir sobreajuste y mejorar macro-F1 porque impongo mas regularizacion.",
+  "threshold": 0.5
+}

@@ -1,0 +1,8 @@
+{
+  "family": "random_forest",
+  "seed": 20261027,
+  "git_commit": "7c35ad5b8734ab5fb8f5b100d7284ba01838a01c",
+  "dvc_version": "data/prepared.dvc",
+  "hypothesis": "Si cambio el arbol por un conjunto balanceado de 100 arboles, espero reducir sobreajuste porque promedia arboles distintos, manteniendo class_weight=balanced.",
+  "threshold": 0.5
+}

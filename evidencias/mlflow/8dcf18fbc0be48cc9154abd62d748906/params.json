@@ -1,0 +1,8 @@
+{
+  "family": "decision_tree",
+  "seed": 20261027,
+  "git_commit": "7c35ad5b8734ab5fb8f5b100d7284ba01838a01c",
+  "dvc_version": "data/prepared.dvc",
+  "hypothesis": "Si cambio solo class_weight a balanced en el arbol, espero reducir FPR y aceptar menor recall porque pondero mas los errores de ataque.",
+  "threshold": 0.5
+}

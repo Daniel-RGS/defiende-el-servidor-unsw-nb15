@@ -13,6 +13,8 @@
 - Análisis de sensibilidad: `evidencias/metricas-sensibilidad.csv` y `.json`, usando las predicciones de validación y excluyendo los 940 registros contradictorios cuando pertenecen a validación.
 - Tabla de corridas: `evidencias/experimentos.csv`.
 - Sensibilidad sin grupos contradictorios: `evidencias/metricas-sensibilidad.csv` y `.json`.
+- Exportación estructurada de MLflow: `evidencias/mlflow/<run_id>/`.
+- Criterio y selección de umbral: `evidencias/criterio-seleccion.json`, `evidencias/umbral-sweep-random-forest.csv`, `evidencias/seleccion-umbral.json` y `evidencias/seleccion.json`.
 
 ## Política de acceso DVC
 
@@ -63,6 +65,13 @@ Esto equivale a 8,36% del test con grupos de train y 2,01% con grupos de
 validación; el solapamiento total por grupo es aproximadamente 10,37%. Las
 métricas del test se interpretarán con esta limitación, porque el solapamiento
 puede favorecerlas.
+
+El criterio se fijó el 27 de octubre de 2026 antes de seleccionar v2:
+maximizar recall de ataque con FPR máximo de 5%; en empates, macro-F1 y luego
+precision. El barrido de validación eligió random forest con umbral 0,51:
+recall 0,9463, precision 0,9762, FPR 0,0490 y macro-F1 0,9410. v1 es la
+logística baseline con umbral 0,50; v2 es el bosque balanceado de 100 árboles
+con umbral 0,51. La comparación no usa test.
 
 Las métricas se calcularán por fila, incluyendo repeticiones: esto da mayor peso
 a los patrones frecuentes y es coherente con la unidad de observación publicada.

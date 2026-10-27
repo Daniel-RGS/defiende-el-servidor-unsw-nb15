@@ -1,0 +1,23 @@
+{
+  "model": "random_forest",
+  "criterion": "max recall_attack subject to fpr <= 0.05; ties macro_f1 then precision_attack",
+  "chosen": {
+    "threshold": 0.51,
+    "recall_attack": 0.9462976007955911,
+    "precision_attack": 0.9761904761904762,
+    "fpr": 0.04904032400070435,
+    "macro_f1": 0.9410046452878044,
+    "confusion_matrix": [
+      [
+        10801,
+        557
+      ],
+      [
+        1296,
+        22837
+      ]
+    ]
+  },
+  "validation_rows": 35491,
+  "test_used": false
+}
