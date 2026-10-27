@@ -1,7 +1,8 @@
 {
   "written_at_utc": "2026-10-27T22:00:00Z",
+  "honesty_note": "Este criterio se redacto despues de observar las seis metricas de validacion con umbral 0.5. No se uso test; el criterio se fijo antes del barrido de umbrales.",
   "scope": "validacion_unicamente",
-  "criterion": "Maximizar recall de ataque sujeto a FPR <= 0.05; en empates, maximizar macro-F1 y luego precision de ataque.",
+  "criterion": "Aplicar la misma regla a los seis candidatos: maximizar recall de ataque sujeto a FPR <= 0.05; en empates, maximizar macro-F1 y luego precision de ataque.",
   "threshold_grid": "0.00 a 1.00 en pasos de 0.01",
   "reason": "En un sistema de seguridad se prioriza no dejar pasar ataques, pero se limita el volumen de falsas alarmas a 5% del trafico normal para mantener operable la respuesta.",
   "test_used": false
