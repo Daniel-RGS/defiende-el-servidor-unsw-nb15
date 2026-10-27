@@ -16,6 +16,7 @@
 - Exportación estructurada de MLflow: `evidencias/mlflow/<run_id>/`.
 - Criterio y selección de umbral: `evidencias/criterio-seleccion.json`, `evidencias/umbral-sweep-all.csv`, `evidencias/umbral-candidatos.csv`, `evidencias/seleccion-umbral.json` y `evidencias/seleccion.json`.
 - Recuperación de v1/v2 desde Hugging Face: `evidencias/recuperacion/hf-recovery.log`.
+- Recuperación integral con DVC, referencias guardadas y tolerancia: `evidencias/recuperacion/hf-recovery-complete.log`.
 
 ## Política de acceso DVC
 
@@ -90,6 +91,10 @@ La revisión v1 es `c4ed6901110c506b99438df76933c779fc9e737c` y la revisión v2 
 en una carpeta limpia y sus predicciones coincidieron con las locales sobre 20
 filas fijas de validación; la diferencia máxima de score fue 0 para v1 y
 1,11e-16 para v2.
+
+Las salidas de referencia están en `evidencias/recuperacion/v1-predictions-before-hf.csv`
+y `v2-predictions-before-hf.csv`. La comparación declara tolerancia numérica
+`1e-12`; las etiquetas binarias coincidieron en las 20 filas de ambas versiones.
 
 Las métricas se calcularán por fila, incluyendo repeticiones: esto da mayor peso
 a los patrones frecuentes y es coherente con la unidad de observación publicada.
