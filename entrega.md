@@ -115,6 +115,11 @@ commit `eaaa2e622a24b142971c2060bcfe94f8121be2fc`, publicado antes de cualquier
 lectura del test. Los cambios posteriores en `seleccion.json` solo añadieron
 referencias de commits/tags y no cambiaron modelo, umbral, criterio ni hashes.
 
+Las hipótesis breves fueron registradas en MLflow al ejecutar cada corrida. La
+redacción ampliada con la forma “si cambio X, espero Y, porque Z” y las
+conclusiones comparativas se añadió posteriormente al archivo exportado; se
+declara como ampliación posterior y no como evidencia retrofechada.
+
 Las salidas de referencia están en `evidencias/recuperacion/v1-predictions-before-hf.csv`
 y `v2-predictions-before-hf.csv`. La comparación declara tolerancia numérica
 `1e-12`; las etiquetas binarias coincidieron en las 20 filas de ambas versiones.
