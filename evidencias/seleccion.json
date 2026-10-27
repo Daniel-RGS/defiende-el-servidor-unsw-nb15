@@ -1,5 +1,5 @@
 {
-  "status": "draft_until_huggingface_sha",
+  "status": "frozen_after_huggingface_recovery",
   "frozen_at_utc": "2026-10-27T22:15:00Z",
   "test_used": false,
   "criterion_reference": "evidencias/criterio-seleccion.json",
@@ -9,7 +9,8 @@
     "run_id": "69f2df8e614b4efc8cea9ea98e442368",
     "git_tag": "v1",
     "model_sha256": "3cf85c943fc34d5d978c84da5f08ca4bc252d61ba72f73fdafabd6792deefbff",
-    "huggingface_revision": null
+    "huggingface_repo": "Daniel-RGS/defiende-el-servidor-unsw-nb15",
+    "huggingface_revision": "c4ed6901110c506b99438df76933c779fc9e737c"
   },
   "v2": {
     "model": "random_forest",
@@ -17,6 +18,7 @@
     "run_id": "dcdbd1d174e442039826cfb6d38ccb99",
     "selection_reason": "Con el criterio fijado antes del barrido, maximiza recall entre los umbrales con FPR <= 0.05; mejora el FPR frente a v1 y conserva alta precision.",
     "model_sha256": "5c18730460aadd105d0cd762165edb66ad2fcfec5afa89fbc1098eda83f74342",
-    "huggingface_revision": null
+    "huggingface_repo": "Daniel-RGS/defiende-el-servidor-unsw-nb15",
+    "huggingface_revision": "d71ac6a63d9a80ecc7af6c13601676a71b925da3"
   }
 }

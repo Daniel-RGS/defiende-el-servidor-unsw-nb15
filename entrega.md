@@ -15,6 +15,7 @@
 - Sensibilidad sin grupos contradictorios: `evidencias/metricas-sensibilidad.csv` y `.json`.
 - Exportación estructurada de MLflow: `evidencias/mlflow/<run_id>/`.
 - Criterio y selección de umbral: `evidencias/criterio-seleccion.json`, `evidencias/umbral-sweep-all.csv`, `evidencias/umbral-candidatos.csv`, `evidencias/seleccion-umbral.json` y `evidencias/seleccion.json`.
+- Recuperación de v1/v2 desde Hugging Face: `evidencias/recuperacion/hf-recovery.log`.
 
 ## Política de acceso DVC
 
@@ -82,6 +83,13 @@ forest obtuvo el mayor recall factible (0,9463 con FPR 0,0490); el siguiente fue
 El margen de v2 respecto al límite de FPR es pequeño (0,0490 frente a 0,05).
 El umbral 0,51 puede no conservar ese límite en test por cambio de distribución
 y por el solapamiento auditado del test; si ocurre, se reportará sin reajustar.
+
+Hugging Face: repositorio `Daniel-RGS/defiende-el-servidor-unsw-nb15`.
+La revisión v1 es `c4ed6901110c506b99438df76933c779fc9e737c` y la revisión v2 es
+`d71ac6a63d9a80ecc7af6c13601676a71b925da3`. Ambas fueron descargadas por SHA
+en una carpeta limpia y sus predicciones coincidieron con las locales sobre 20
+filas fijas de validación; la diferencia máxima de score fue 0 para v1 y
+1,11e-16 para v2.
 
 Las métricas se calcularán por fila, incluyendo repeticiones: esto da mayor peso
 a los patrones frecuentes y es coherente con la unidad de observación publicada.

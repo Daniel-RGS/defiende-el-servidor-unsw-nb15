@@ -1,0 +1,9 @@
+$ snapshot_download(repo_id, revision=v1_sha)
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files:  20%|██        | 1/5 [00:00<00:01,  2.91it/s]Fetching 5 files: 100%|██████████| 5/5 [00:01<00:00,  2.78it/s]Fetching 5 files: 100%|██████████| 5/5 [00:01<00:00,  2.79it/s]
+v1 downloaded
+$ snapshot_download(repo_id, revision=v2_sha)
+Fetching 5 files:   0%|          | 0/5 [00:00<?, ?it/s]Fetching 5 files:  20%|██        | 1/5 [00:00<00:01,  2.98it/s]Fetching 5 files:  80%|████████  | 4/5 [00:00<00:00,  8.58it/s]Fetching 5 files: 100%|██████████| 5/5 [00:05<00:00,  1.07s/it]
+v2 downloaded
+$ compare predictions on 20 fixed validation rows
+{"version": "v1", "rows": 20, "max_score_difference": 0.0, "labels_equal": true, "threshold": 0.5, "input_row_ids": ["train:2", "train:4", "train:7", "train:23", "train:25", "train:29", "train:33", "train:38", "train:43", "train:47", "train:48", "train:49", "train:53", "train:59", "train:61", "train:75", "train:78", "train:84", "train:94", "train:101"]}
+{"version": "v2", "rows": 20, "max_score_difference": 1.1102230246251565e-16, "labels_equal": true, "threshold": 0.51, "input_row_ids": ["train:2", "train:4", "train:7", "train:23", "train:25", "train:29", "train:33", "train:38", "train:43", "train:47", "train:48", "train:49", "train:53", "train:59", "train:61", "train:75", "train:78", "train:84", "train:94", "train:101"]}
