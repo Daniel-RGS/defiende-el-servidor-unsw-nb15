@@ -108,6 +108,13 @@ v2 por el SHA completo de Hugging Face, verifica el hash del modelo y del test,
 aplica `y_pred = score_attack >= 0.51` y produce las dos evidencias exigidas.
 Todavía no se ha ejecutado.
 
+El ensayo previo sobre validación está en
+`evidencias/recuperacion/validation-dry-run.log` y reprodujo exactamente la
+matriz `[[10801, 557], [1296, 22837]]`. El tag `freeze-pre-test` apunta al
+commit `eaaa2e622a24b142971c2060bcfe94f8121be2fc`, publicado antes de cualquier
+lectura del test. Los cambios posteriores en `seleccion.json` solo añadieron
+referencias de commits/tags y no cambiaron modelo, umbral, criterio ni hashes.
+
 Las salidas de referencia están en `evidencias/recuperacion/v1-predictions-before-hf.csv`
 y `v2-predictions-before-hf.csv`. La comparación declara tolerancia numérica
 `1e-12`; las etiquetas binarias coincidieron en las 20 filas de ambas versiones.
