@@ -10,7 +10,9 @@
 - Recuperación de datos preparados: `evidencias/recuperacion/dvc-prepared-pull.log`.
 - Prueba del remote HTTPS público sin credenciales: `evidencias/recuperacion/dvc-pull-public-https-sin-credenciales.log`.
 - Recuperación desde respaldo Drive: `evidencias/recuperacion/dvc-pull-drive.log`.
-- Análisis de sensibilidad: se añadirá después de ejecutar los modelos, usando las predicciones de validación y excluyendo los 940 registros contradictorios.
+- Análisis de sensibilidad: `evidencias/metricas-sensibilidad.csv` y `.json`, usando las predicciones de validación y excluyendo los 940 registros contradictorios cuando pertenecen a validación.
+- Tabla de corridas: `evidencias/experimentos.csv`.
+- Sensibilidad sin grupos contradictorios: `evidencias/metricas-sensibilidad.csv` y `.json`.
 
 ## Política de acceso DVC
 

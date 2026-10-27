@@ -1,0 +1,24 @@
+{
+  "id": "tree_balanced",
+  "family": "decision_tree",
+  "hypothesis": "class_weight=balanced mejora recall en el \u00e1rbol.",
+  "run_id": "8dcf18fbc0be48cc9154abd62d748906",
+  "seed": 20261027,
+  "git_commit": "7c35ad5b8734ab5fb8f5b100d7284ba01838a01c",
+  "dvc_version": "data/prepared.dvc",
+  "recall_attack": 0.9286868603157502,
+  "precision_attack": 0.977452134851062,
+  "fpr": 0.04551857721429829,
+  "macro_f1": 0.929441918502441,
+  "threshold": 0.5,
+  "confusion_matrix": [
+    [
+      10841,
+      517
+    ],
+    [
+      1721,
+      22412
+    ]
+  ]
+}

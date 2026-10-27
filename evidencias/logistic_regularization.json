@@ -1,0 +1,24 @@
+{
+  "id": "logistic_regularization",
+  "family": "logistic_regression",
+  "hypothesis": "C=0.1 aumenta regularizaci\u00f3n y puede mejorar macro-F1.",
+  "run_id": "854b4a4a7a334f1ab770cd5a974e9851",
+  "seed": 20261027,
+  "git_commit": "7c35ad5b8734ab5fb8f5b100d7284ba01838a01c",
+  "dvc_version": "data/prepared.dvc",
+  "recall_attack": 0.9890191853478639,
+  "precision_attack": 0.9221140472878998,
+  "fpr": 0.1774960380348653,
+  "macro_f1": 0.9227975619698794,
+  "threshold": 0.5,
+  "confusion_matrix": [
+    [
+      9342,
+      2016
+    ],
+    [
+      265,
+      23868
+    ]
+  ]
+}

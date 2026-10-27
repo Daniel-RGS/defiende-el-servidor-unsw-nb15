@@ -1,0 +1,24 @@
+{
+  "id": "random_forest",
+  "family": "random_forest",
+  "hypothesis": "Un bosque reduce la varianza y mejora macro-F1.",
+  "run_id": "dcdbd1d174e442039826cfb6d38ccb99",
+  "seed": 20261027,
+  "git_commit": "7c35ad5b8734ab5fb8f5b100d7284ba01838a01c",
+  "dvc_version": "data/prepared.dvc",
+  "recall_attack": 0.9477064600339784,
+  "precision_attack": 0.9755587783654667,
+  "fpr": 0.05044902271526677,
+  "macro_f1": 0.9415144463396471,
+  "threshold": 0.5,
+  "confusion_matrix": [
+    [
+      10785,
+      573
+    ],
+    [
+      1262,
+      22871
+    ]
+  ]
+}
