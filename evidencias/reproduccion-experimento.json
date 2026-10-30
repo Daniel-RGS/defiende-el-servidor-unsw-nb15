@@ -1,0 +1,108 @@
+{
+  "fecha": "2026-10-30",
+  "equipo": "Mac Intel x86_64, macOS (Darwin 24.6.0), Python 3.12.14",
+  "scikit_learn": "1.9.1",
+  "numpy": "2.5.4",
+  "comando": "python -m src.run_experiments --only <id> --output-dir reproduccion/<id>",
+  "tiempo_y_memoria": {
+    "logistic_baseline": {
+      "segundos_reales": 63.2,
+      "rss_max_mb": 729
+    },
+    "random_forest": {
+      "segundos_reales": 118.9,
+      "rss_max_mb": 759
+    }
+  },
+  "comparacion": {
+    "logistic_baseline": {
+      "run_id_original": "69f2df8e614b4efc8cea9ea98e442368",
+      "run_id_reproduccion": "ae8b8855c608435f9ae19f96a6df5943",
+      "recall_attack": {
+        "original": 0.9880661335101314,
+        "reproduccion": 0.9880246964737082,
+        "diferencia_abs": 4.143703642323082e-05
+      },
+      "precision_attack": {
+        "original": 0.9246190236147195,
+        "reproduccion": 0.9247236765561373,
+        "diferencia_abs": 0.00010465294141781545
+      },
+      "fpr": {
+        "original": 0.17115689381933438,
+        "reproduccion": 0.17089276281035393,
+        "diferencia_abs": 0.00026413100898045605
+      },
+      "macro_f1": {
+        "original": 0.9246536734057267,
+        "reproduccion": 0.9247294522378646,
+        "diferencia_abs": 7.577883213794046e-05
+      },
+      "matriz_original": [
+        [
+          9414,
+          1944
+        ],
+        [
+          288,
+          23845
+        ]
+      ],
+      "matriz_reproduccion": [
+        [
+          9417,
+          1941
+        ],
+        [
+          289,
+          23844
+        ]
+      ]
+    },
+    "random_forest": {
+      "run_id_original": "dcdbd1d174e442039826cfb6d38ccb99",
+      "run_id_reproduccion": "241ce8fe472a407392740bb6427608b2",
+      "recall_attack": {
+        "original": 0.9477064600339784,
+        "reproduccion": 0.9477064600339784,
+        "diferencia_abs": 0.0
+      },
+      "precision_attack": {
+        "original": 0.9755587783654667,
+        "reproduccion": 0.9755587783654667,
+        "diferencia_abs": 0.0
+      },
+      "fpr": {
+        "original": 0.05044902271526677,
+        "reproduccion": 0.05044902271526677,
+        "diferencia_abs": 0.0
+      },
+      "macro_f1": {
+        "original": 0.9415144463396471,
+        "reproduccion": 0.9415144463396471,
+        "diferencia_abs": 0.0
+      },
+      "matriz_original": [
+        [
+          10785,
+          573
+        ],
+        [
+          1262,
+          22871
+        ]
+      ],
+      "matriz_reproduccion": [
+        [
+          10785,
+          573
+        ],
+        [
+          1262,
+          22871
+        ]
+      ]
+    }
+  },
+  "interpretacion": "random_forest se reproduce exactamente. logistic_baseline cambia 4 de 35.491 predicciones de validación (diferencia máxima 0,00026 en FPR) por diferencias numéricas del optimizador lbfgs entre el equipo del entrenamiento original (Python 3.12.3) y el Mac Intel de esta prueba. El artefacto v1 entregado no se reentrena: se recupera desde Hugging Face por SHA y reproduce sus predicciones exactamente."
+}
