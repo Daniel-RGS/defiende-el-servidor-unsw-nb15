@@ -108,16 +108,23 @@ v2 por el SHA completo de Hugging Face, verifica el hash del modelo y del test,
 aplica `y_pred = score_attack >= 0.51` y produce las dos evidencias exigidas.
 Todavía no se ha ejecutado.
 
+Antes de la ejecución del test se añadió una comprobación de columnas al script:
+debe haber 42 predictoras y sus nombres y orden deben coincidir con
+`model.feature_names_in_`. Este cambio no altera el modelo, el umbral ni el
+criterio de selección.
+
 El ensayo previo sobre validación está en
 `evidencias/recuperacion/validation-dry-run.log` y reprodujo exactamente la
 matriz `[[10801, 557], [1296, 22837]]`. El tag `freeze-pre-test` apunta al
 commit `eaaa2e622a24b142971c2060bcfe94f8121be2fc`, publicado antes de cualquier
 lectura del test. Los cambios posteriores en `seleccion.json` solo añadieron
 referencias de commits/tags y no cambiaron modelo, umbral, criterio ni hashes.
-GitHub confirma que `eaaa2e622a24b142971c2060bcfe94f8121be2fc` fue publicado con
-fecha `2026-10-27T22:51:40Z` (`17:51:40` en Bogotá). El tag
-`freeze-pre-test` se añadió después como marcador separado apuntando a ese mismo
-commit; no representa una nueva selección ni una lectura del test.
+GitHub muestra para `eaaa2e622a24b142971c2060bcfe94f8121be2fc` la fecha
+`2026-10-27T22:51:40Z` (`17:51:40` en Bogotá), que corresponde al commit.
+La consulta pública de eventos no permitió verificar de forma independiente la
+hora exacta del push. El tag `freeze-pre-test` se añadió después como marcador
+separado apuntando a ese mismo commit; no representa una nueva selección ni una
+lectura del test.
 
 Las hipótesis breves fueron registradas en MLflow al ejecutar cada corrida. La
 redacción ampliada con la forma “si cambio X, espero Y, porque Z” y las

@@ -40,7 +40,10 @@ def evaluate_test(output_dir):
     model, threshold, model_hash = load_hf_model(output_dir)
     test = pd.read_csv(RAW_TEST)
     if len(test) != 82332: raise ValueError("El test no tiene 82.332 filas")
-    X = test.drop(columns=EXCLUDED); score = model.predict_proba(X)[:, 1]; pred = (score >= threshold).astype(int)
+    X = test.drop(columns=EXCLUDED)
+    assert len(X.columns) == 42, "El test no deja exactamente 42 predictoras"
+    assert list(X.columns) == list(model.feature_names_in_), "El orden/nombre de predictoras no coincide con el modelo"
+    score = model.predict_proba(X)[:, 1]; pred = (score >= threshold).astype(int)
     pd.DataFrame({"row_id":[f"testing-set:{i}" for i in range(len(test))],"y_true":test["label"],"score_attack":score,"y_pred":pred}).to_csv(pred_path,index=False)
     metrics = binary_metrics(test["label"], score, threshold)
     metrics_path.write_text(json.dumps({"version":"v2","model_sha256":model_hash,"dataset_sha256":TEST_SHA256,"rows":len(test),"threshold":threshold,"positive_class":1,"hf_revision":HF_REVISION,"git_commit":git_commit(),"scikit_learn":sklearn.__version__,**metrics},indent=2),encoding="utf-8")
