@@ -58,3 +58,25 @@ sha256sum data/raw/UNSW_NB15_training-set.csv data/raw/UNSW_NB15_testing-set.csv
 
 La salida reproducida de esta prueba está en
 `evidencias/recuperacion/dvc-pull-drive.log`.
+
+## Pendientes para Miguel Nagel
+
+La auditoría, los splits, el pipeline, los experimentos, la recuperación, la
+evaluación única del test y sus evidencias ya están terminados y publicados.
+Miguel debe cerrar estos puntos antes de la entrega:
+
+- Actualizar la model card pública de Hugging Face de v2 con las métricas del
+  test, manteniendo la revisión evaluada
+  `d71ac6a63d9a80ecc7af6c13601676a71b925da3` y el mismo SHA de
+  `pipeline.joblib`.
+- Comprobar que la model card no incluya tokens, correos ni rutas personales.
+- Preparar el informe final y completar `entrega.md` con la contribución de
+  cada integrante y las limitaciones del resultado en test.
+- Crear el ZIP final sin `.env`, cachés, entornos virtuales, `mlruns/` ni
+  credenciales; verificar su contenido antes de enviarlo.
+- Hacer una recuperación final desde una carpeta limpia y guardar la evidencia
+  correspondiente.
+
+Para continuar, Miguel necesita permisos de escritura en el repositorio de
+GitHub. No se deben compartir tokens: cada persona configura sus credenciales
+locales fuera de Git.
