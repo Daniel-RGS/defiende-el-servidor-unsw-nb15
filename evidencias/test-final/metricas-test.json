@@ -1,0 +1,26 @@
+{
+  "version": "v2",
+  "model_sha256": "5c18730460aadd105d0cd762165edb66ad2fcfec5afa89fbc1098eda83f74342",
+  "dataset_sha256": "734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559",
+  "rows": 82332,
+  "threshold": 0.51,
+  "positive_class": 1,
+  "hf_revision": "d71ac6a63d9a80ecc7af6c13601676a71b925da3",
+  "git_commit": "f4249592859668259331690423c7e4bc440f98fd",
+  "scikit_learn": "1.9.1",
+  "recall_attack": 0.9649033795111621,
+  "precision_attack": 0.8790747216527995,
+  "fpr": 0.1626216216216216,
+  "macro_f1": 0.9053201962529758,
+  "accuracy": 0.9075936452412184,
+  "confusion_matrix": [
+    [
+      30983,
+      6017
+    ],
+    [
+      1591,
+      43741
+    ]
+  ]
+}

@@ -126,6 +126,16 @@ hora exacta del push. El tag `freeze-pre-test` se añadió después como marcado
 separado apuntando a ese mismo commit; no representa una nueva selección ni una
 lectura del test.
 
+La evaluación del test se ejecutó una sola vez el 30 de octubre de 2026 con
+`tee -a`, usando la revisión HF `d71ac6a63d9a80ecc7af6c13601676a71b925da3` y
+umbral 0,51. Produjo 82.332 filas. La matriz fue
+`[[30983, 6017], [1591, 43741]]`; recall `0,964903`, precision `0,879075`,
+FPR `0,162622` y macro-F1 `0,905320`. El FPR superó el 5% observado en
+validación y se conserva como limitación, sin reajustar el umbral ni repetir.
+El hash de `pipeline.joblib` siguió siendo
+`5c18730460aadd105d0cd762165edb66ad2fcfec5afa89fbc1098eda83f74342`.
+La comprobación independiente está en `src/recalculate_test_metrics.py`.
+
 Las hipótesis breves fueron registradas en MLflow al ejecutar cada corrida. La
 redacción ampliada con la forma “si cambio X, espero Y, porque Z” y las
 conclusiones comparativas se añadió posteriormente al archivo exportado; se
