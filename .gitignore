@@ -224,3 +224,9 @@ mlflow.db
 .env
 *.pkl
 *.joblib
+
+# Salidas locales de reproducción y recuperación
+reproduccion/
+recuperacion-salidas/
+modelos-hf/
+backups/
