@@ -1,0 +1,121 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<title>Informe Defiende el servidor</title>
+<style>
+  @page { size: Letter; margin: 1.8cm 1.9cm; }
+  :root { --ink: #1d2320; --muted: #5a645f; --line: #c9d1cc; --head: #1f4d3a; --band: #eef3f0; }
+  body { font-family: "Helvetica Neue", Arial, sans-serif; font-size: 10.2pt; line-height: 1.38; color: var(--ink); background: #fff; margin: 0; }
+  h1 { font-size: 17pt; margin: 0 0 2pt; color: var(--head); }
+  .sub { color: var(--muted); margin: 0 0 10pt; font-size: 9.5pt; }
+  h2 { font-size: 12pt; color: var(--head); margin: 13pt 0 4pt; border-bottom: 1.2pt solid var(--head); padding-bottom: 2pt; }
+  p { margin: 0 0 6pt; text-align: justify; }
+  ul { margin: 0 0 6pt 14pt; padding: 0; } li { margin-bottom: 2pt; }
+  table { border-collapse: collapse; width: 100%; margin: 4pt 0 8pt; font-size: 8.8pt; page-break-inside: avoid; }
+  th { background: var(--head); color: #fff; text-align: left; font-weight: 600; padding: 3pt 5pt; }
+  td { border-bottom: 0.6pt solid var(--line); padding: 2.6pt 5pt; vertical-align: top; }
+  tr:nth-child(even) td { background: var(--band); }
+  td.n, th.n { text-align: right; font-variant-numeric: tabular-nums; }
+  code { font-family: Menlo, Consolas, monospace; font-size: 8.4pt; background: #f2f4f3; padding: 0 2pt; word-break: break-all; }
+  .meta td { border: none; padding: 1pt 6pt 1pt 0; background: none !important; font-size: 9.2pt; }
+  .cap { font-size: 8.6pt; color: var(--muted); margin-top: -4pt; }
+  .refs p { font-size: 8.8pt; text-align: left; }
+  .break { page-break-before: always; }
+</style>
+</head>
+<body>
+
+<h1>Defiende el servidor</h1>
+<p class="sub">MLOps 2026-II · Universidad Externado de Colombia · Docente: Julián Zuluaga · 30 de octubre de 2026</p>
+<table class="meta">
+  <tr><td><b>Integrantes</b></td><td>Miguel Melo (grupo A) · Daniel Santiago Rincón Gamba (grupo B)</td></tr>
+  <tr><td><b>Código</b></td><td>github.com/Daniel-RGS/defiende-el-servidor-unsw-nb15 (tag <code>entrega-final</code>)</td></tr>
+  <tr><td><b>Modelos</b></td><td>huggingface.co/Daniel-RGS/defiende-el-servidor-unsw-nb15 · v1 <code>c4ed6901110c506b99438df76933c779fc9e737c</code> · v2 <code>d71ac6a63d9a80ecc7af6c13601676a71b925da3</code></td></tr>
+</table>
+
+<p>Construimos un clasificador binario de conexiones de red (0 normal, 1 ataque) con UNSW-NB15 y, sobre todo, una cadena de versiones que permite recuperarlo: el código en Git, los datos en DVC, los experimentos en MLflow y los modelos en Hugging Face. La clase positiva es ataque en todas las métricas. El objetivo no fue la métrica más alta, sino poder explicar de qué datos y experimento sale cada modelo y volver a usarlo desde cero.</p>
+
+<h2>1. Datos y limpieza</h2>
+<p>Usamos las particiones publicadas <code>UNSW_NB15_training-set.csv</code> (175.341 filas) y <code>UNSW_NB15_testing-set.csv</code> (82.332 filas), con 45 columnas cada una. Sus SHA-256 coinciden con las huellas del anexo de la guía. No hay faltantes. El objetivo es <code>label</code>; excluimos <code>label</code>, <code>attack_cat</code> (revela la respuesta) e <code>id</code> (identifica filas y su orden está asociado a la clase: los primeros 47.911 <code>id</code> son todos normales), y dejamos 42 predictoras: 39 numéricas y 3 categóricas (<code>proto</code>, <code>service</code>, <code>state</code>).</p>
+<p>Contamos duplicados solo con las 42 predictoras. En entrenamiento hay 101.040 grupos distintos; 9.748 se repiten y suman 74.301 filas más allá de la primera aparición. Hay 229 grupos con etiquetas contradictorias (940 filas): la misma entrada aparece como normal y como ataque. Decidimos conservarlos y no resolverlos por mayoría, porque eliminarlos o relabelarlos cambiaría la distribución; lo que sí garantizamos es que ningún grupo quede partido entre entrenamiento y validación.</p>
+<p>Creamos entrenamiento y validación solo desde el archivo de entrenamiento, con <code>GroupShuffleSplit</code> (20 % para validación, semilla <code>20261027</code>), usando como grupo el hash de las 42 predictoras. Resultado: 139.850 filas de entrenamiento y 35.491 de validación, con cero grupos compartidos. La asignación fila a fila (<code>split_assignments.csv</code>) quedó fija para todos los experimentos. El preprocesamiento (imputación por mediana o moda, escalado y one-hot con <code>handle_unknown="ignore"</code>) está dentro de un único <code>Pipeline</code> de scikit-learn que solo se ajusta con entrenamiento y se guarda completo junto al estimador.</p>
+<p>Del test solo auditamos esquema y cruces: 6.886 filas (8,4 %) repiten grupos de entrenamiento y 1.655 (2,0 %) grupos de validación. Ese solapamiento puede favorecer las métricas de test. En DVC quedaron dos versiones: los CSV recibidos (<code>data/raw/*.dvc</code>, commit <code>5b646e2</code>) y los datos preparados con sus splits (<code>data/prepared.dvc</code>, commit <code>be164fb</code>).</p>
+
+<h2>2. Experimentos</h2>
+<p>Corrimos seis configuraciones de tres familias con los mismos splits; cada una tiene un cambio identificado respecto a una configuración anterior. Todas quedaron en MLflow con hipótesis, parámetros, semilla, versión de datos, commit, métricas, matriz de confusión y el pipeline completo como artefacto. La tabla usa validación y umbral 0,5.</p>
+<table>
+  <tr><th>Configuración</th><th>Cambio e hipótesis</th><th class="n">Recall</th><th class="n">Precision</th><th class="n">FPR</th><th class="n">Macro-F1</th><th>Run ID</th></tr>
+  <tr><td>logistic_baseline</td><td>Referencia lineal, C=1</td><td class="n">0,9881</td><td class="n">0,9246</td><td class="n">0,1712</td><td class="n">0,9247</td><td><code>69f2df8e</code></td></tr>
+  <tr><td>logistic_balanced</td><td>class_weight balanced: cambiar recall/FPR</td><td class="n">0,9519</td><td class="n">0,9513</td><td class="n">0,1035</td><td class="n">0,9243</td><td><code>07e38640</code></td></tr>
+  <tr><td>logistic_regularization</td><td>C=0,1: más regularización, mejor macro-F1</td><td class="n">0,9890</td><td class="n">0,9221</td><td class="n">0,1775</td><td class="n">0,9228</td><td><code>854b4a4a</code></td></tr>
+  <tr><td>tree_baseline</td><td>Árbol, profundidad 12: relaciones no lineales</td><td class="n">0,9784</td><td class="n">0,9427</td><td class="n">0,1264</td><td class="n">0,9352</td><td><code>ca5f347a</code></td></tr>
+  <tr><td>tree_balanced</td><td>Árbol balanceado: menos FPR, menos recall</td><td class="n">0,9287</td><td class="n">0,9775</td><td class="n">0,0455</td><td class="n">0,9294</td><td><code>8dcf18fb</code></td></tr>
+  <tr><td>random_forest</td><td>100 árboles balanceados, profundidad 18: menos varianza</td><td class="n">0,9477</td><td class="n">0,9756</td><td class="n">0,0504</td><td class="n">0,9415</td><td><code>dcdbd1d1</code></td></tr>
+</table>
+<p class="cap">Fuente: <code>evidencias/experimentos.csv</code> y <code>evidencias/mlflow/&lt;run_id&gt;/</code>. Los run ID completos están en ambos archivos.</p>
+<p>La regularización no ayudó (macro-F1 bajó), y balancear la logística bajó el FPR pero no subió el recall: dos hipótesis que no se cumplieron. Los árboles superaron a las logísticas en macro-F1, y el balanceo en árboles produjo el intercambio esperado (FPR 0,046 a cambio de recall 0,929). El bosque mejoró al árbol balanceado en macro-F1 y en recall. Sin los 940 registros contradictorios, las métricas cambian menos de 0,005 (<code>metricas-sensibilidad.csv</code>), así que esas filas no explican las diferencias entre modelos, aunque sí imponen un techo: dos filas idénticas con etiquetas opuestas no pueden acertarse a la vez.</p>
+<p>Los denominadores cero se manejan con <code>zero_division=0</code> en precision, recall y macro-F1, y el FPR vale 0 si no hay negativos reales; en nuestros datos no ocurrió. Reprodujimos dos corridas en otro equipo: el bosque dio métricas idénticas y la logística cambió 4 de 35.491 predicciones por diferencias numéricas del optimizador entre plataformas (<code>evidencias/reproduccion-experimento.json</code>).</p>
+
+<h2>3. Elección de umbral</h2>
+<p>En seguridad pesa más dejar pasar un ataque que una falsa alarma, pero un FPR alto satura al equipo que responde. Fijamos el criterio el 27 de octubre, antes del barrido: maximizar el recall de ataque con un FPR de validación de 5 % como máximo; en empates, macro-F1 y luego precision. Lo escribimos después de ver las métricas a 0,5 de validación (nunca las de test) y lo declaramos así en <code>criterio-seleccion.json</code>. Aplicamos la misma rejilla (0,00 a 1,00 cada 0,01) a los seis modelos.</p>
+<table>
+  <tr><th>Modelo</th><th class="n">Mejor umbral factible</th><th class="n">Recall</th><th class="n">Precision</th><th class="n">FPR</th><th class="n">Macro-F1</th></tr>
+  <tr><td><b>random_forest</b></td><td class="n">0,51</td><td class="n"><b>0,9463</b></td><td class="n">0,9762</td><td class="n">0,0490</td><td class="n">0,9410</td></tr>
+  <tr><td>tree_balanced</td><td class="n">0,49</td><td class="n">0,9291</td><td class="n">0,9773</td><td class="n">0,0458</td><td class="n">0,9296</td></tr>
+  <tr><td>tree_baseline</td><td class="n">0,70</td><td class="n">0,9253</td><td class="n">0,9796</td><td class="n">0,0410</td><td class="n">0,9287</td></tr>
+  <tr><td>logistic_balanced</td><td class="n">0,63</td><td class="n">0,8947</td><td class="n">0,9748</td><td class="n">0,0491</td><td class="n">0,9038</td></tr>
+  <tr><td>logistic_baseline</td><td class="n">0,78</td><td class="n">0,8926</td><td class="n">0,9751</td><td class="n">0,0484</td><td class="n">0,9026</td></tr>
+  <tr><td>logistic_regularization</td><td class="n">0,78</td><td class="n">0,8882</td><td class="n">0,9749</td><td class="n">0,0485</td><td class="n">0,8995</td></tr>
+</table>
+<p class="cap">Fuente: <code>evidencias/umbral-candidatos.csv</code> y <code>umbral-sweep-all.csv</code>. Solo validación.</p>
+<p>El bosque con umbral 0,51 obtuvo el mayor recall factible. Su margen frente al límite es pequeño (0,0490 contra 0,05), lo que anotamos antes de evaluar test como un riesgo.</p>
+
+<h2>4. Versiones v1 y v2</h2>
+<table>
+  <tr><th>Campo</th><th>v1</th><th>v2</th></tr>
+  <tr><td>Modelo y umbral</td><td>Logística (<code>logistic_baseline</code>), 0,50</td><td>Random forest balanceado, 0,51</td></tr>
+  <tr><td>Tag Git</td><td><code>v1</code> = <code>dc23c56</code> (config. <code>configs/v1.json</code>)</td><td><code>v2</code> = <code>b453a7f</code> (config. <code>configs/v2.json</code>)</td></tr>
+  <tr><td>Commit de entrenamiento</td><td colspan="2"><code>7c35ad5b8734ab5fb8f5b100d7284ba01838a01c</code> (las seis corridas)</td></tr>
+  <tr><td>Datos DVC</td><td colspan="2"><code>data/prepared.dvc</code>, md5 <code>3d25c4d9…</code>, commit <code>be164fb</code></td></tr>
+  <tr><td>Run MLflow</td><td><code>69f2df8e614b4efc8cea9ea98e442368</code></td><td><code>dcdbd1d174e442039826cfb6d38ccb99</code></td></tr>
+  <tr><td>SHA-256 del pipeline</td><td><code>3cf85c94…deefbff</code></td><td><code>5c187304…f83f74342</code></td></tr>
+  <tr><td>Validación: recall / precision / FPR / macro-F1</td><td>0,9881 / 0,9246 / 0,1712 / 0,9247</td><td>0,9463 / 0,9762 / 0,0490 / 0,9410</td></tr>
+  <tr><td>Matriz <code>[[TN, FP], [FN, TP]]</code></td><td><code>[[9414, 1944], [288, 23845]]</code></td><td><code>[[10801, 557], [1296, 22837]]</code></td></tr>
+</table>
+<p>v1 es la primera solución funcional: la referencia logística con umbral por defecto. v2 cambia la familia de modelo y el umbral, con base en los experimentos. En validación, v2 baja las falsas alarmas de 1.944 a 557 (FPR de 0,171 a 0,049) y sube la precision; a cambio, los ataques no detectados pasan de 288 a 1.296 (recall de 0,988 a 0,946). Aceptamos ese costo porque v1 marcaría como ataque a uno de cada seis flujos normales, algo inmanejable en operación. Ambas revisiones de Hugging Face contienen el pipeline completo, <code>config.json</code> con el umbral, <code>requirements.txt</code> y la model card con propósito, datos, métricas, limitaciones, uso y referencias a Git, DVC y MLflow.</p>
+
+<h2>5. Recuperación</h2>
+<p>Hicimos la prueba en una carpeta y un entorno nuevos, con caché de Hugging Face vacía y sin la caché DVC original (<code>scripts/recuperacion_limpia.sh</code>): clonamos el commit, instalamos las dependencias fijadas, bajamos el respaldo del almacenamiento DVC desde Drive, verificamos su SHA-256, hicimos <code>dvc pull</code> y comprobamos las huellas de los datos originales y preparados. Luego descargamos v1 y v2 por su SHA completo, verificamos el hash de cada <code>pipeline.joblib</code> y predijimos sobre 20 filas fijas de validación. Con tolerancia 1e-12, las predicciones coincidieron con las guardadas antes de publicar: diferencia máxima 0 en v1 y 2,2e-16 en v2, con etiquetas iguales. Una prueba de mutación (alterar una etiqueta de referencia) hizo fallar la comparación, como debía. Log, entradas, salidas y hashes están en <code>evidencias/recuperacion/final/</code>.</p>
+
+<h2>6. Test final</h2>
+<p>Evaluamos una sola vez, el 30 de octubre, la revisión congelada de v2 (<code>d71ac6a6…</code>, tag <code>freeze-pre-test</code> sobre el commit <code>eaaa2e6</code> del 27 de octubre) sobre las 82.332 filas del test, con la regla <code>y_pred = 1</code> si <code>score_attack ≥ 0,51</code>. El script verifica los hashes del modelo y del test y se niega a repetir la evaluación.</p>
+<table>
+  <tr><th></th><th class="n">Recall</th><th class="n">Precision</th><th class="n">FPR</th><th class="n">Macro-F1</th><th class="n">Accuracy</th><th>Matriz <code>[[TN, FP], [FN, TP]]</code></th></tr>
+  <tr><td>Validación</td><td class="n">0,9463</td><td class="n">0,9762</td><td class="n">0,0490</td><td class="n">0,9410</td><td class="n">0,9478</td><td><code>[[10801, 557], [1296, 22837]]</code></td></tr>
+  <tr><td>Test</td><td class="n">0,9649</td><td class="n">0,8791</td><td class="n">0,1626</td><td class="n">0,9053</td><td class="n">0,9076</td><td><code>[[30983, 6017], [1591, 43741]]</code></td></tr>
+</table>
+<p>El recall se mantuvo e incluso subió, pero el FPR se triplicó y superó con amplitud el límite de 5 % que guió la selección. Las particiones publicadas no tienen la misma composición: el test tiene 44,9 % de tráfico normal frente a 31,9 % en entrenamiento, y en el test una fracción mayor de esos flujos normales recibe puntajes por encima del umbral. No reajustamos el umbral ni repetimos la evaluación, porque eso habría convertido el test en validación. Las métricas se recalculan desde <code>predicciones-test.csv</code> con <code>src/recalculate_test_metrics.py</code> y coinciden con <code>metricas-test.json</code>. Actualizamos la model card de v2 con este resultado mediante un commit de solo documentación, que conserva la revisión evaluada y el hash del artefacto.</p>
+
+<h2>7. Limitaciones</h2>
+<ul>
+  <li>El umbral elegido no generalizó su FPR al test; en operación habría que recalibrarlo con tráfico normal reciente.</li>
+  <li>Cerca del 10,4 % del test repite grupos de entrenamiento o validación, lo que puede inflar sus métricas.</li>
+  <li>Las métricas pesan cada fila, incluidas las repeticiones, y 940 filas de validación tienen etiquetas contradictorias.</li>
+  <li>El criterio de umbral se escribió después de ver las métricas a 0,5 de validación, aunque antes del barrido y sin mirar el test.</li>
+  <li>UNSW-NB15 es un conjunto histórico de laboratorio; estos resultados no demuestran eficacia en una red actual.</li>
+  <li>El remote principal de DVC (DagsHub) requiere credenciales; la recuperación sin ellas depende del respaldo en Drive.</li>
+  <li>Reentrenar la logística en otra plataforma puede cambiar unas pocas predicciones; los modelos entregados se recuperan por SHA, no se reentrenan.</li>
+</ul>
+
+<div class="refs">
+<h2>Referencias</h2>
+<p>Moustafa, N. y Slay, J. (2015). UNSW-NB15: a comprehensive data set for network intrusion detection systems. <i>Military Communications and Information Systems Conference (MilCIS)</i>. UNSW Canberra.</p>
+<p>Pedregosa, F. et al. (2011). Scikit-learn: Machine Learning in Python. <i>JMLR</i>, 12, 2825-2830.</p>
+<p>Mitchell, M. et al. (2019). Model Cards for Model Reporting. <i>FAT* '19</i>.</p>
+<p>Documentación de DVC, MLflow Tracking y Hugging Face Hub (descarga por revisión), consultada en octubre de 2026.</p>
+<p>Uso de IA: Daniel usó Codex y Miguel usó Claude Code como asistentes; la declaración detallada está en <code>entrega.md</code>.</p>
+</div>
+
+</body>
+</html>
