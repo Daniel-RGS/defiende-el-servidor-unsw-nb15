@@ -91,6 +91,9 @@ La revisión v1 es `c4ed6901110c506b99438df76933c779fc9e737c` y la revisión v2 
 en una carpeta limpia y sus predicciones coincidieron con las locales sobre 20
 filas fijas de validación; la diferencia máxima de score fue 0 para v1 y
 1,11e-16 para v2.
+Después de la evaluación, la model card de v2 se actualizó sin modificar el
+modelo en la revisión `167253b06ef31532460256e74b52a44c87af3405`; la revisión
+evaluada sigue siendo `d71ac6a63d9a80ecc7af6c13601676a71b925da3`.
 
 El entrenamiento de v1 y v2 quedó registrado en el mismo commit de código
 `7c35ad5b8734ab5fb8f5b100d7284ba01838a01c`; por eso las cards y los runs lo
@@ -106,7 +109,7 @@ actual incluye `n_estimators=100`, `max_depth=18`, `class_weight=balanced`,
 El script preparado para la evaluación única es `src/evaluate_test.py`: carga
 v2 por el SHA completo de Hugging Face, verifica el hash del modelo y del test,
 aplica `y_pred = score_attack >= 0.51` y produce las dos evidencias exigidas.
-Todavía no se ha ejecutado.
+Se ejecutó una sola vez y sus salidas están en `evidencias/test-final/`.
 
 Antes de la ejecución del test se añadió una comprobación de columnas al script:
 debe haber 42 predictoras y sus nombres y orden deben coincidir con

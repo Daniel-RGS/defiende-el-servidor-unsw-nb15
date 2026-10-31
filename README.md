@@ -65,10 +65,11 @@ La auditoría, los splits, el pipeline, los experimentos, la recuperación, la
 evaluación única del test y sus evidencias ya están terminados y publicados.
 Miguel debe cerrar estos puntos antes de la entrega:
 
-- Actualizar la model card pública de Hugging Face de v2 con las métricas del
-  test, manteniendo la revisión evaluada
-  `d71ac6a63d9a80ecc7af6c13601676a71b925da3` y el mismo SHA de
-  `pipeline.joblib`.
+- La model card pública de Hugging Face de v2 ya fue actualizada con las
+  métricas del test en la revisión `167253b06ef31532460256e74b52a44c87af3405`;
+  la revisión evaluada sigue siendo
+  `d71ac6a63d9a80ecc7af6c13601676a71b925da3` y el SHA de `pipeline.joblib` no
+  cambió.
 - Comprobar que la model card no incluya tokens, correos ni rutas personales.
 - Preparar el informe final y completar `entrega.md` con la contribución de
   cada integrante y las limitaciones del resultado en test.
