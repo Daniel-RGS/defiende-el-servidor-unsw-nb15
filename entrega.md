@@ -36,9 +36,12 @@ pierde recall (0.988 a 0.946). Aceptamos más ataques no detectados a cambio de
 reducir las falsas alarmas a la cuarta parte.
 
 La revisión `d71ac6a6...` es la que evaluamos en test y la que se descarga para
-predecir. Después actualizamos la model card de v2 con el resultado del test
-mediante un commit de solo documentación en Hugging Face; ese commit no cambia
-`pipeline.joblib` ni `config.json` (ver `model_cards/v2/README.md`).
+predecir. La model card de v2 con el resultado del test está en
+`model_cards/v2/README.md`. Se publica en Hugging Face con
+`scripts/actualizar_card_v2.py`, que hace un commit de solo documentación sobre
+`d71ac6a6...` y comprueba que `pipeline.joblib`, `config.json` y
+`requirements.txt` no cambian. El SHA de la revisión de Hugging Face con la card
+actualizada se indica en el mensaje de entrega.
 
 ## Datos
 
@@ -99,6 +102,8 @@ Todos están en el README y se ejecutan desde la raíz del repositorio:
   `bash scripts/recuperacion_limpia.sh <commit> 2>&1 | tee recuperacion.log`.
 - Recalcular métricas de test:
   `python -m src.recalculate_test_metrics evidencias/test-final/predicciones-test.csv`.
+- Armar el ZIP desde Git (sin datos, entornos, cachés ni credenciales):
+  `bash scripts/empaquetar_entrega.sh entrega-final <carpeta-salida>`.
 
 ### Tiempo y recursos medidos
 
