@@ -1,0 +1,80 @@
+
+## Entorno (t=0s)
+inicio UTC: 2026-10-31T00:32:36Z
+Darwin x86_64
+Intel(R) Core(TM) i3-1000NG4 CPU @ 1.10GHz
+RAM bytes: 8589934592
+carpeta nueva: /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia
+
+## 1. Código en la revisión elegida y dependencias fijadas (t=0s)
+$ git clone --quiet https://github.com/Daniel-RGS/defiende-el-servidor-unsw-nb15.git proyecto
+$ git checkout --quiet d030aad1fb53ddb069d28f0fa1c5f00e538183b6
+$ git rev-parse HEAD
+d030aad1fb53ddb069d28f0fa1c5f00e538183b6
+$ python3.12 -m venv .venv
+$ python --version
+Python 3.12.14
+$ pip install --quiet --disable-pip-version-check --upgrade pip
+NOTA: Mac Intel, se sustituye cryptography==50.0.2 por cryptography==48.0.1
+$ pip install --quiet --disable-pip-version-check -r /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/requirements-mac-intel.txt
+$ pip check
+No broken requirements found.
+$ pip install --quiet --disable-pip-version-check gdown==5.2.0
+
+## 2. Datos con DVC desde el respaldo entregado en Drive (t=143s)
+$ gdown --quiet 1j7H_eR0oXREf799NVNKJ-N3yUl-Lag4b --output /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/dvc-storage.tar.gz
+OK  9a8e05590a0d41110051662b956ca78455919968a86f2ee6cdd6a8fc193e620d  /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/dvc-storage.tar.gz
+$ tar -xzf /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/dvc-storage.tar.gz -C /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia
+$ dvc remote add --local backup /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/cache
+$ dvc pull -r backup
+A       data/prepared/
+A       data/raw/UNSW_NB15_testing-set.csv
+A       data/raw/UNSW_NB15_training-set.csv
+8 files fetched and 7 files added
+OK  bec7dd5ec88dc2a0ccc7a07879d338395ed7421750f675fd0339e07dfe0648fa  data/raw/UNSW_NB15_training-set.csv
+OK  734fe6642edf758f7c94d7d9149426b49d202fe8e7bf0bef47392489c3c0a559  data/raw/UNSW_NB15_testing-set.csv
+OK  8a6538f6423a503e76cdf82ebbbf73c1449689d27388de4e1e34a3abf8eded8c  data/prepared/split_assignments.csv
+OK  ca485acb8f9857cd160a6412bf67c8163aa8ee29c0a71150dff5cff089a5c8a3  data/prepared/train_rows.csv
+OK  385223116b73b87ec56b1460ce0b1d3d121e9af3480f71bc4bc31a59b17f04e4  data/prepared/validation_rows.csv
+$ dvc status
+Data and pipelines are up to date.
+
+## 3 a 5. Modelos v1 y v2 desde Hugging Face por SHA y comparación de predicciones (t=162s)
+$ python -m src.recover --output-dir /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/salidas --download-dir /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/modelos-hf
+Warning: You are sending unauthenticated requests to the HF Hub. Please set a HF_TOKEN to enable higher rate limits and faster downloads.
+[
+  {
+    "version": "v1",
+    "hf_repo": "Daniel-RGS/defiende-el-servidor-unsw-nb15",
+    "hf_revision": "c4ed6901110c506b99438df76933c779fc9e737c",
+    "model_sha256": "3cf85c943fc34d5d978c84da5f08ca4bc252d61ba72f73fdafabd6792deefbff",
+    "threshold": 0.5,
+    "rows": 20,
+    "input_sha256": "9bd7bb2451eb41403a61bc8b0bea01d880d9ee63958d6a5dd0d075dc59c4d7a5",
+    "tolerance": 1e-12,
+    "max_score_difference": 0.0,
+    "labels_equal": true,
+    "ok": true
+  },
+  {
+    "version": "v2",
+    "hf_repo": "Daniel-RGS/defiende-el-servidor-unsw-nb15",
+    "hf_revision": "d71ac6a63d9a80ecc7af6c13601676a71b925da3",
+    "model_sha256": "5c18730460aadd105d0cd762165edb66ad2fcfec5afa89fbc1098eda83f74342",
+    "threshold": 0.51,
+    "rows": 20,
+    "input_sha256": "9bd7bb2451eb41403a61bc8b0bea01d880d9ee63958d6a5dd0d075dc59c4d7a5",
+    "tolerance": 1e-12,
+    "max_score_difference": 2.220446049250313e-16,
+    "labels_equal": true,
+    "ok": true
+  }
+]
+3cf85c943fc34d5d978c84da5f08ca4bc252d61ba72f73fdafabd6792deefbff  /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/modelos-hf/v1/pipeline.joblib
+5c18730460aadd105d0cd762165edb66ad2fcfec5afa89fbc1098eda83f74342  /private/tmp/claude-502/-Users-melo/29314169-5e2e-4c79-ae95-fe8b79cf192a/scratchpad/recuperacion-limpia/modelos-hf/v2/pipeline.joblib
+9bd7bb2451eb41403a61bc8b0bea01d880d9ee63958d6a5dd0d075dc59c4d7a5  evidencias/recuperacion/entrada-validacion-20.csv
+
+## Fin (t=175s)
+fin UTC: 2026-10-31T00:35:31Z
+duración total: 175s
+RESULTADO: recuperación correcta
